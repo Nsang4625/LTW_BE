@@ -2,24 +2,47 @@ package nhom3.backend.examsystem.model;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class AnswerSheet {	
-	List<Answer> answers;
-	
+	@Id
+	private long id;
+	private long userId;
+	private int result;
 	public AnswerSheet() {
 		
 	}
+
+	public AnswerSheet(long id, long userId, int result) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.result = result;
+	}
 	
-	public AnswerSheet(List<Answer> answers) {
-		this.answers = answers;
+	public long getId() {
+		return id;
 	}
 
-	public List<Answer> getAnswers() {
-		return answers;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
+	public long getUserId() {
+		return userId;
 	}
-	
-	
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public int getResult() {
+		return result;
+	}
+
+	public void setResult(int result) {
+		this.result = result;
+	}
 }

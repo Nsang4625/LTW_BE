@@ -2,8 +2,6 @@ package nhom3.backend.examsystem.model;
 
 import java.util.List;
 
-import org.json.JSONArray;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +15,7 @@ public class Answer {
 	private Long id;
 	private int questionId;
 	private int answerSheetId;
-	private List<String> choices;
+	private String choices;
 	
 	public Answer() {
 			
@@ -27,7 +25,7 @@ public class Answer {
 		this.id = id;
 		this.questionId = questionId;
 		this.answerSheetId = answerSheetId;
-		setChoices(choices);
+		this.choices = choices;
 	}
 
 	public int getQuestionId() {
@@ -39,15 +37,12 @@ public class Answer {
 	}
 
 
-	public List<String> getChoices() {
+	public String getChoices() {
 		return choices;
 	}
 
 	public void setChoices(String choices) {
-		JSONArray jsa = new JSONArray(choices);
-		for(int i = 0; i < jsa.length(); ++i) {
-			this.choices.add(jsa.getString(i));
-		}
+		this.choices = choices;
 	}
 
 	public int getAnswerSheetId() {

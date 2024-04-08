@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/submission")
-	
+
 public class Submit {
 	
 	@PostMapping("/submit")	
@@ -34,20 +34,15 @@ public class Submit {
 			
 			// Calculate the result
 			List<Map<String, Object>> answers = (ArrayList<Map<String, Object>>) answerSheet.get("answers");
-			long examID = (long) answerSheet.get("examId");
-			long userId = (long) answerSheet.get("userId");
 			
 			for(int i = 0; i < answers.size(); ++i) {
 				Map<String, Object> answer = answers.get(i);
-				long questionId = (long) answer.get("questionId");
-				String choicesJson = (String) answer.get("choices");
-				System.out.println(choicesJson);
-				JSONArray jsa = new JSONArray(choicesJson);
-				List<String> choices = new ArrayList<String>();
-				for(int j = 0; j < jsa.length(); ++j) {
-					choices.add(jsa.getString(j));
-				}
-				
+//				ArrayList<String> choices = (ArrayList<String>) answer.get("choices");
+//				System.out.println(answer.get("choices").getClass().getName());
+				JSONArray jsa = new JSONArray(answer.get("choices"));
+//				for(int j = 0; j < choices.size(); ++j) {
+//					System.out.println(choices.get(j));
+//				}
 			}
 		}
 		catch(Exception e) {

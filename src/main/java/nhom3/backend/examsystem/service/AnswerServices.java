@@ -1,11 +1,17 @@
 package nhom3.backend.examsystem.service;
 
-import nhom3.backend.examsystem.repository.AnswerRepository;
+import java.util.List;
+
+import nhom3.backend.examsystem.model.Answer;
+import nhom3.backend.examsystem.model.AnswerSheet;
 
 public class AnswerServices {
 
 	private static AnswerServices answerServices;
-	private AnswerRepository answerRepository;
+	
+	public AnswerServices() {
+		
+	}
 	
 	public static AnswerServices getInstance() {
 		if(answerServices == null)
@@ -13,5 +19,7 @@ public class AnswerServices {
 		return answerServices;	
 			
 	}
-
+	public void addAnswerSheet(List<Answer> answers) {
+		
+	}
 }

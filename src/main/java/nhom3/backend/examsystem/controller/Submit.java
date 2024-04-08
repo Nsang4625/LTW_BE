@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Submit {
 	
 	@PostMapping("/submit")	
-	public ResponseEntity<Object> postAnswerSheet(@RequestBody Object answers) {
+	public ResponseEntity<Object> postAnswerSheet(@RequestBody List<Answer> answers) {
 		try {
 			AnswerServices.getInstance().addAnswerSheet(answers);
 		}

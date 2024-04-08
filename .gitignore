@@ -32,8 +32,3 @@ build/
 
 ### VS Code ###
 .vscode/
-mvnw.cmd
-mvnw
-pom.xml
-.mvn/**
-.properties

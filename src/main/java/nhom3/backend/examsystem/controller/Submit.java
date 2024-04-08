@@ -58,35 +58,44 @@ public class Submit {
 			int result = 0;
 			for(int i = 0; i < answers.size(); ++i) {
 				Map<String, Object> answer = answers.get(i);
-				Integer questionId = (Integer) answer.get("questionId");
+				Integer questionIdInt = (Integer) answer.get("questionId");
+				Long questionId = Long.valueOf(questionIdInt.longValue());
 				String choicesJson = (String) answer.get("choices");
-				System.out.println(choicesJson);
+	
 				JSONArray jsa = new JSONArray(choicesJson);
 				List<String> choices = new ArrayList<String>();
 				for(int j = 0; j < jsa.length(); ++j) {
 					choices.add(jsa.getString(j));
 				}
-				answerServices.createAnswer(questionId, 2, choices);
 				
-				
-//				Optional<Question> optionalQuestion = questionRepository.findById(questionId);
-//				Question question = optionalQuestion.get();
-//				List<String> correctAnswers = question.getCorrectAnswerList();
-//				Collections.sort(choices);
-//				Collections.sort(correctAnswers);
-//				int flag = 1;
-//				if(choices.size() != correctAnswers.size())
-//					flag = 0;
-//				for(int j = 0; j < choices.size(); ++j) {
-//					if(choices.get(i).equals(answers.get(i)) == false) {
-//						flag = 0;
-//					}
-//				}
-//				result += flag;
+				Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+				Question question = optionalQuestion.get();
+				String p = question.getCorrectAnswer();
+
+				List<String> correctAnswers = new ArrayList<String>();
+				jsa = new JSONArray(p);
+				for(int j = 0; j < jsa.length(); ++j) {
+					correctAnswers.add(jsa.getString(j));
+				}
+
+				Collections.sort(choices);
+				Collections.sort(correctAnswers);
+				int flag = 1;
+				if(choices.size() != correctAnswers.size()) {
+					flag = 0;
+					continue;
+				}
+				for(int j = 0; j < choices.size(); ++j) {
+					if(choices.get(j).equals(correctAnswers.get(j)) == false) {
+//						System.out.printf("Choice: %s, answers: %s\n", choices.get(j), answers.get(j));
+						flag = 0;
+					}
+				}
+				result += flag;
 			}
 			answerSheet.put("result", result);
-			ResponseEntity re = answerSheetServices.createAnswerSheet(examId, userId, result);
-			System.out.println(re.getBody());
+			ResponseEntity re = answerSheetServices.createAnswerSheet(examId, userId, result, answers);
+//			System.out.println(re.get);
 		}
 		catch(Exception e) {
 			System.out.println(e);

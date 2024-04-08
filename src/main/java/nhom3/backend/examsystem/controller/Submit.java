@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	
 public class Submit {
 
-	@Autowired
+//	@Autowired
 	private final QuestionRepository questionRepository;
 	private final AnswerSheetServices answerSheetServices;
 	private final AnswerServices answerServices;

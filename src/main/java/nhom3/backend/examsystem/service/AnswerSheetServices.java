@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AnswerSheetServices {
-	@Autowired
+//	@Autowired
 	private final AnswerSheetRepository answerSheetRepository;
 	private final AnswerServices answerServices;
 	
@@ -36,7 +36,7 @@ public class AnswerSheetServices {
 		answerSheet.setResult(result);
 		
 		answerSheetRepository.save(answerSheet);
-\
+
 		answerServices.createAnswers(answers, answerSheet.getId());
 		return ResponseEntity.ok(answerSheet);
 	}

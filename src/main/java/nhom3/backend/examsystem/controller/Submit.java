@@ -32,6 +32,7 @@ public class Submit {
 			return ResponseHandler.getResponse("Lỗi nộp bài", HttpStatus.BAD_REQUEST, new AnswerSheet());
 		}
 		
+		// Calculate result
 		
 		
 		return ResponseHandler.getResponse("Nộp bài thành công", HttpStatus.OK, answers);

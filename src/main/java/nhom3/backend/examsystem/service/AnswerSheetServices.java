@@ -5,18 +5,18 @@ import nhom3.backend.examsystem.model.AnswerSheet;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 
-
+@Service
 public class AnswerSheetServices {
-	private static AnswerSheetServices answerSheetServices;
-	private AnswerSheetRepository answerSheetRepository;
+	@Autowired
+	private final AnswerSheetRepository answerSheetRepository;
 	
-	public AnswerSheetServices getInstance() {
-		if(answerSheetServices == null)
-			answerSheetServices = new AnswerSheetServices();
-		return answerSheetServices;
+	public AnswerSheetServices(AnswerSheetRepository answerSheetRepository) {
+		this.answerSheetRepository = answerSheetRepository;
 	}
 	
 	// Get answer sheet by id
@@ -25,7 +25,12 @@ public class AnswerSheetServices {
 		return ResponseEntity.ok(optionalAnswerSheet);
 	}
 	
-	public ResponseEntity<?> createAnswerSheet(AnswerSheet answerSheet){
-		return null;
+	public ResponseEntity<?> createAnswerSheet(long examId, long userId, int result){
+		AnswerSheet answerSheet = new AnswerSheet();
+		answerSheet.setExamId(examId);
+		answerSheet.setUserId(userId);
+		answerSheet.setResult(result);
+		answerSheetRepository.save(answerSheet);
+		return ResponseEntity.ok(answerSheet);
 	}
 }

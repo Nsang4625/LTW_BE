@@ -4,57 +4,69 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="answer")
 public class Answer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
-	private int questionId;
-	private int answerSheetId;
-	private List<String> choices;
+	@Column(name="question_id")
+	private long questionId;
+	@Column(name="answer_sheet_id")
+	private long answerSheetId;
+	@Column(name="choices")
+	private String choices;
 	
 	public Answer() {
 			
 	}
 	
-	public Answer(Long id, int questionId, int answerSheetId, String choices) {
+	public Answer(Long id, long questionId, long answerSheetId, String choices) {
 		this.id = id;
 		this.questionId = questionId;
 		this.answerSheetId = answerSheetId;
-		setChoices(choices);
+		this.choices = choices;
 	}
 
-	public int getQuestionId() {
+	public long getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(int questionId) {
+	public void setQuestionId(long questionId) {
 		this.questionId = questionId;
 	}
 
 
-	public List<String> getChoices() {
+	public String getChoices() {
 		return choices;
 	}
 
 	public void setChoices(String choices) {
-		JSONArray jsa = new JSONArray(choices);
-		for(int i = 0; i < jsa.length(); ++i) {
-			this.choices.add(jsa.getString(i));
-		}
+//		JSONArray jsa = new JSONArray(choices);
+//		for(int i = 0; i < jsa.length(); ++i) {
+//			this.choices.add(jsa.getString(i));
+//		}
 	}
 
-	public int getAnswerSheetId() {
+	
+	public void setChoices(List<String> choices) {
+		
+		this.choices = new JSONArray(choices).toString();
+	}
+	
+	public long getAnswerSheetId() {
 		return answerSheetId;
 	}
 
-	public void setAnswerSheetId(int answerSheetId) {
+	public void setAnswerSheetId(long answerSheetId) {
 		this.answerSheetId = answerSheetId;
 	}
 	

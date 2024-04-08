@@ -19,7 +19,7 @@ public class AnswerServices {
 		return answerServices;	
 			
 	}
-	public void addAnswerSheet(AnswerSheet answerSheet) {
+	public void addAnswerSheet(List<Answer> answers) {
 		
 	}
 }

@@ -17,6 +17,12 @@ public class Exam {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id")
     private Long examId;
+
+    public Long getExamId() {
+        return examId;
+    }
+
+
     @Column(name = "name")
     private String examName;
 

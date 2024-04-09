@@ -16,10 +16,10 @@ import java.util.List;
 public class ExamService {
     private final ExamRepository examRepository;
     
-    @Autowired
-    public ExamService(ExamRepository examRepository) {
-    	this.examRepository = examRepository;
-    }
+//    @Autowired
+//    public ExamService(ExamRepository examRepository) {
+//    	this.examRepository = examRepository;
+//    }
 
     public ResponseEntity<?> getExamById(Long examId){
         Exam exam = examRepository.findById(examId).orElse(null);
@@ -33,15 +33,11 @@ public class ExamService {
 
     // Create exam
     public ResponseEntity<?> createExam(Exam exam){
-        Exam newExam = new Exam();
-        newExam.setExamName(newExam.getExamName());
-        newExam.setExamType(newExam.getExamType());
-        newExam.setStartTime(newExam.getStartTime());
-        newExam.setEndTime(newExam.getEndTime());
+
 
         examRepository.save(exam);
 
-        return ResponseEntity.ok(newExam);
+        return ResponseEntity.ok(exam);
     }
 
     // Delete exam

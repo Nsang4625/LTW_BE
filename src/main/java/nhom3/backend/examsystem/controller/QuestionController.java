@@ -27,7 +27,7 @@ public class QuestionController {
     }
 
     // Get all questions
-    @GetMapping("/get-all-questions")
+    @GetMapping("/get-all-questions")   
     public ResponseEntity<?> getAllQuestions() {
         return questionService.getAllQuestions();
     }

@@ -22,28 +22,24 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final ExamRepository examRepository;
     
-    @Autowired
-    public QuestionService(QuestionRepository questionRepository, ExamRepository examRepository){
-      this.questionRepository = questionRepository;
-      this.examRepository = examRepository;
-    }
+//    @Autowired
+//    public QuestionService(QuestionRepository questionRepository, ExamRepository examRepository){
+//      this.questionRepository = questionRepository;
+//      this.examRepository = examRepository;
+//    }
 
     // Create
     public ResponseEntity<?> createQuestion(Question question, Long examId) throws JsonProcessingException {
+        question.setExamId(examId);
         Exam exam = examRepository.findById(examId).orElse(null);
         if(exam==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found the exam by id");
         }
-        Question q = new Question();
 
-        q.setExamId(examId);
-        q.setQuestionText(question.getQuestionText());
-        q.setChoices(question.getChoiceList());
-        q.setCorrectAnswer(question.getCorrectAnswerList());
 
-        questionRepository.save(q);
+        questionRepository.save(question);
 
-        return ResponseEntity.ok(q);
+        return ResponseEntity.ok(question);
     }
 
     // Get question by id
@@ -84,8 +80,9 @@ public class QuestionService {
 
         q.setExamId(newQuestion.getExamId());
         q.setQuestionTypeId(newQuestion.getQuestionTypeId());
-        q.setChoices(newQuestion.getChoiceList());
-        q.setCorrectAnswer(newQuestion.getCorrectAnswerList());
+        q.setChoices(newQuestion.getChoices());
+        q.setCorrectAnswer(newQuestion.getCorrectAnswer());
+        q.setContent(newQuestion.getContent());
 
         questionRepository.save(q);
 

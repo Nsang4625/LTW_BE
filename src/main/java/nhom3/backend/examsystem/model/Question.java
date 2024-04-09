@@ -22,19 +22,6 @@ public class Question{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long questionId;
-    @Transient
-    private List<String> choiceList;
-    @Transient
-    private List<String> correctAnswerList;
-
-    public List<String> getChoiceList() {
-        return choiceList;
-    }
-
-    public List<String> getCorrectAnswerList() {
-        return correctAnswerList;
-    }
-
 
     @Column(name = "content")
     private String content;
@@ -44,6 +31,14 @@ public class Question{
 
     @Column(name = "correct_answer")
     private String correctAnswer;
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
 
     @Column(name = "exam_id")
     private Long examId;
@@ -68,6 +63,10 @@ public class Question{
         this.choices = objectMapper.writeValueAsString(choiceList);
     }
 
+    public void setChoices(String choices){
+        this.choices = choices;
+    }
+
     public String getCorrectAnswer() {
         return correctAnswer;
     }
@@ -75,6 +74,10 @@ public class Question{
     public void setCorrectAnswer(List<String> correctAnswerList) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         this.choices = objectMapper.writeValueAsString(correctAnswerList);
+    }
+
+    public void setCorrectAnswer(String correctAnswer){
+        this.correctAnswer = correctAnswer;
     }
 
     public Long getExamId() {

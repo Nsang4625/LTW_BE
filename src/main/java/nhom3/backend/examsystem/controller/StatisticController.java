@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/statistic")
+@RequestMapping("/admin/statistic")
 @RequiredArgsConstructor
 public class StatisticController {
     @Autowired
@@ -25,26 +25,27 @@ public class StatisticController {
 
     private final AnswerSheetServices answerSheetServices;
     // thống kê tất cả các bài kiểm tra, điểm trung bình mỗi bài, tỉ lệ làm bài
-    private int count = 5;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<ExamDto> findAllExamsWithStats() {
         List<ExamDto> exams = new ArrayList<>();
         List<Object[]> results = entityManager.createNativeQuery(
-                "SELECT e, AVG(a.result), COUNT(a) FROM exam e LEFT JOIN answer_sheet a ON e.id = a.exam_id GROUP BY e.id"
+                "select exam.id, exam.name, exam.type, avg(answer_sheet.result), count(*) from exam left join answer_sheet on exam.id = answer_sheet.exam_id group by exam.id"
         ).getResultList();
 
+         Object cnt = entityManager.createNativeQuery("select count(*) from user inner join user_role on user.user_id = user_role.user_id inner join role on user_role.role_id = role.role_id where role.authority = 'USER' group by user.user_id").getSingleResult();
+         Long count = (Long) cnt;
         for (Object[] result : results) {
-            Exam exam = (Exam) result[0];
-            Double avgResult = (Double) result[1];
-            Long totalAnswersheets = (Long) result[2];
+            Double avgResult =Double.parseDouble(result[3].toString());
+
+            Long totalAnswersheets = (Long) result[4];
 
             ExamDto examDto = new ExamDto();
-            examDto.setId(exam.getExamId());
-            examDto.setName(exam.getExamName());
-            examDto.setType(exam.getExamType());
+            examDto.setId((Long) result[0]);
+            examDto.setName((String) result[1]);
+            examDto.setType((String)result[2]);
             examDto.setAvgResult(avgResult);
-            examDto.setAnswerSheetRatio(totalAnswersheets.doubleValue() / count);
+            examDto.setAnswerSheetRatio((double) totalAnswersheets/count);
 
             exams.add(examDto);
         }

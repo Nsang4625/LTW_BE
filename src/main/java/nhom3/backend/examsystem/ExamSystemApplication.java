@@ -23,14 +23,25 @@ public class ExamSystemApplication {
 	@Bean
 	CommandLineRunner run(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder){
 		return args -> {
-//			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
+
+//			if(roleRepository.findByAuthority("ADMIN").isPresent()) System.out.println("ok");
+//			Role adminRole = roleRepository.save(new Role("ADMIN"));
+////			roleRepository.save(new Role("USER"));
+//
+//			Set<Role> roles = new HashSet<>();
+//			roles.add(adminRole);
+//
+//			User admin = new User( "admin", passwordEncoder.encode("password"), roles);
+//			userRepository.save(admin);
+			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
 			Role adminRole = roleRepository.save(new Role("ADMIN"));
-//			roleRepository.save(new Role("USER"));
+			roleRepository.save(new Role("USER"));
 
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 
 			User admin = new User( "admin", passwordEncoder.encode("password"), roles);
+
 			userRepository.save(admin);
 		};
 	}

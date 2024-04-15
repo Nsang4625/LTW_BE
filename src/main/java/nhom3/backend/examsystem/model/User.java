@@ -48,6 +48,12 @@ public class User  implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
+    public User( String username, String password, Set<Role> authorities) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
 
     public void setId(Long userId) {
         this.userId = userId;

@@ -17,9 +17,9 @@ public class ExamService {
     private final ExamRepository examRepository;
     
 //    @Autowired
-//    public ExamService(ExamRepository examRepository) {
-//    	this.examRepository = examRepository;
-//    }
+    public ExamService(ExamRepository examRepository) {
+    	this.examRepository = examRepository;
+    }
 
     public ResponseEntity<?> getExamById(Long examId){
         Exam exam = examRepository.findById(examId).orElse(null);

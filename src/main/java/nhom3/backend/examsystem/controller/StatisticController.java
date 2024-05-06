@@ -24,6 +24,10 @@ public class StatisticController {
     private EntityManager entityManager;
 
     private final AnswerSheetServices answerSheetServices;
+    
+    public StatisticController(AnswerSheetServices answerSheetServices) {
+    	this.answerSheetServices = answerSheetServices;
+    }
     // thống kê tất cả các bài kiểm tra, điểm trung bình mỗi bài, tỉ lệ làm bài
 
     @GetMapping("/all")

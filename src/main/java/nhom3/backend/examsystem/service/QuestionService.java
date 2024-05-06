@@ -23,10 +23,10 @@ public class QuestionService {
     private final ExamRepository examRepository;
     
 //    @Autowired
-//    public QuestionService(QuestionRepository questionRepository, ExamRepository examRepository){
-//      this.questionRepository = questionRepository;
-//      this.examRepository = examRepository;
-//    }
+    public QuestionService(QuestionRepository questionRepository, ExamRepository examRepository){
+      this.questionRepository = questionRepository;
+      this.examRepository = examRepository;
+    }
 
     // Create
     public ResponseEntity<?> createQuestion(Question question, Long examId) throws JsonProcessingException {

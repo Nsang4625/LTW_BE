@@ -16,20 +16,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="question")
+@Table(name="Question")
 public class Question{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "Id")
     private long questionId;
 
-    @Column(name = "content")
+    @Column(name = "Content", length = 65535)
     private String content;
 
-    @Column(name = "choices")
+    @Column(name = "Choices", length = 65535)
     private String choices;
 
-    @Column(name = "correct_answer")
+    @Column(name = "Correct_answer")
     private String correctAnswer;
 
     public void setContent(String content) {
@@ -40,10 +40,10 @@ public class Question{
         return content;
     }
 
-    @Column(name = "exam_id")
+    @Column(name = "Exam_id")
     private Long examId;
 
-    @Column(name = "question_type_id")
+    @Column(name = "Question_type_id")
     private Long questionTypeId;
 
     public String getQuestionText() {

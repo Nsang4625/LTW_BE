@@ -12,17 +12,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="answer")
+@Table(name="Answer")
 public class Answer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="Id")
 	private Long id;
-	@Column(name="question_id")
+	@Column(name="Question_id")
 	private long questionId;
-	@Column(name="answer_sheet_id")
+	@Column(name="Answer_sheet_id")
 	private long answerSheetId;
-	@Column(name="choices")
+	@Column(name="Choices")
 	private String choices;
 	
 	public Answer() {

@@ -11,11 +11,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "exam")
+@Table(name = "Exam")
 public class Exam {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "Id")
     private Long examId;
 
     public Long getExamId() {
@@ -23,7 +23,7 @@ public class Exam {
     }
 
 
-    @Column(name = "name")
+    @Column(name = "Name")
     private String examName;
 
 
@@ -60,16 +60,16 @@ public class Exam {
         this.endTime = endTime;
     }
 
-    @Column(name = "type")
+    @Column(name = "Type_exam")
     private String examType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", timezone = "UTC")
-    @Column(name = "time_start")
+    @Column(name = "Time_start")
     private Date startTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", timezone = "UTC")
-    @Column(name = "time_end")
+    @Column(name = "Time_end")
     private Date endTime;
 }

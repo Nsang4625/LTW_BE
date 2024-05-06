@@ -25,8 +25,9 @@ public class ExamSystemApplication {
 		return args -> {
 
 //			if(roleRepository.findByAuthority("ADMIN").isPresent()) System.out.println("ok");
+//			System.out.println("Not ok");
 //			Role adminRole = roleRepository.save(new Role("ADMIN"));
-////			roleRepository.save(new Role("USER"));
+//			roleRepository.save(new Role("USER"));
 //
 //			Set<Role> roles = new HashSet<>();
 //			roles.add(adminRole);

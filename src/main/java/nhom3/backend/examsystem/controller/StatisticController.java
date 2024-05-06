@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,4 +64,23 @@ public class StatisticController {
 
         return answersheets;
     }
+
+    @GetMapping("/exam-result/{examId}")
+    public Double getExamResult(@PathVariable("examId") long examId){
+        int userId = 2;
+        String query = "select result from answer_sheet where answer_sheet.exam_id = " + examId + " and answer_sheet.user_id = " + userId;
+        Object result = entityManager.createNativeQuery("SELECT result FROM quiz.answer_sheet WHERE answer_sheet.exam_id = " + examId + " AND answer_sheet.user_id = " + userId).getSingleResult();
+        Double count = Double.valueOf(result.toString());
+        Object total = entityManager.createNativeQuery("SELECT count(*) FROM question WHERE question.exam_id = " + examId);
+        Double total2 = Double.valueOf(total.toString());
+        return count / total2;
+    }
+
+//    @GetMapping("/exam-result/{examId}/details")
+//    public List<Object> getExamResultDetals(@PathVariable("examId") long examId) {
+//        int userId = 2;
+//        Object answerSheet = entityManager.createNativeQuery("SELECT id FROM answer_sheet WHERE answer_sheet.exam_id = " + examId + " AND answer_sheet.user_id = " + userId).getSingleResult();
+//        Double answerSheetId = (Double) answerSheet;
+//        List<Object> results = entityManager.createNativeQuery("SELECT * FROM answer WHERE answer.answer_sheet_id = " + answerSheetId + "").getResultList();
+//    }
 }

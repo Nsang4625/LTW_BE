@@ -26,6 +26,10 @@ public class StatisticController {
     private final AnswerSheetServices answerSheetServices;
     // thống kê tất cả các bài kiểm tra, điểm trung bình mỗi bài, tỉ lệ làm bài
     private int count = 5;
+    
+    public StatisticController(AnswerSheetServices answerSheetServices) {
+    	this.answerSheetServices = answerSheetServices;
+    }
 
     @GetMapping
     public List<ExamDto> findAllExamsWithStats() {

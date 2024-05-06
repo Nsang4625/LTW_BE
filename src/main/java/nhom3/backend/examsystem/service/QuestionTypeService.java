@@ -24,10 +24,10 @@ public class QuestionTypeService {
     private final QuestionTypeRepository questionTypeRepository;
     
 //    @Autowired
-//    public QuestionTypeService(QuestionRepository questionRepository, QuestionTypeRepository questionTypeRepository) {
-//    	this.questionRepository = questionRepository;
-//    	this.questionTypeRepository = questionTypeRepository;
-//    }
+    public QuestionTypeService(QuestionRepository questionRepository, QuestionTypeRepository questionTypeRepository) {
+    	this.questionRepository = questionRepository;
+    	this.questionTypeRepository = questionTypeRepository;
+    }
 
     // Create
     public ResponseEntity<?> createQuestionType(QuestionType questionType, Long questionId) {

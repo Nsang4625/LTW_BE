@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticDto {
+
+    private int tongSolanThamGia;
     private Double tyLeHoanThanh;
     private Double diemtb;
     private List<String> phanPhoiDiem;
@@ -13,10 +15,19 @@ public class StatisticDto {
 
     }
 
-    public StatisticDto(Double tyLeHoanThanh, Double diemtb, List<String> phanPhoiDiem) {
+    public StatisticDto(int tongSolanThamGia, Double tyLeHoanThanh, Double diemtb, List<String> phanPhoiDiem) {
+        this.tongSolanThamGia = tongSolanThamGia;
         this.tyLeHoanThanh = tyLeHoanThanh;
         this.diemtb = diemtb;
         this.phanPhoiDiem = phanPhoiDiem;
+    }
+
+    public int getTongSolanThamGia() {
+        return tongSolanThamGia;
+    }
+
+    public void setTongSolanThamGia(int tongSolanThamGia) {
+        this.tongSolanThamGia = tongSolanThamGia;
     }
 
     public Double getTyLeHoanThanh() {
@@ -42,5 +53,4 @@ public class StatisticDto {
     public void setPhanPhoiDiem(List<String> phanPhoiDiem) {
         this.phanPhoiDiem = phanPhoiDiem;
     }
-
 }

@@ -60,7 +60,7 @@ public class Exam {
         this.endTime = endTime;
     }
 
-    @Column(name = "Type_exam")
+    @Column(name = "Type")
     private String examType;
 
     @Temporal(TemporalType.TIMESTAMP)

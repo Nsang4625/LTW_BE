@@ -24,7 +24,7 @@ public class AnswerSheet {
 	private long examId;
 
 
-	@Column(name="Res")
+	@Column(name="Result")
 	private double result;
 	public AnswerSheet() {
 		

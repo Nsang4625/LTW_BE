@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080")
 public class QuestionTypeController {
     private final QuestionTypeService questionTypeService;
+    
+    public QuestionTypeController(QuestionTypeService questionTypeService) {
+    	this.questionTypeService = questionTypeService;
+    }
 
     // Create new question
     @PostMapping("/create-question-type/{questionId}")

@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080")
 public class QuestionController {
     private final QuestionService questionService;
+    
+    public QuestionController(QuestionService questionService) {
+    	this.questionService = questionService;
+    }
 
     // Create new question
     @PostMapping("/create-question/{examId}")

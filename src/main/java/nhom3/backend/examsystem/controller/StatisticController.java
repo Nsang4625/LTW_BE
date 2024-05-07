@@ -17,6 +17,8 @@ import java.util.*;
 
 @RestController
 @RequestMapping("admin/statistic")
+
+
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class StatisticController {
@@ -25,7 +27,12 @@ public class StatisticController {
     private final ExamService examService;
 
     private final AnswerSheetServices answerSheetServices;
+    
+    public StatisticController(AnswerSheetServices answerSheetServices) {
+    	this.answerSheetServices = answerSheetServices;
+    }
     // thống kê tất cả các bài kiểm tra, điểm trung bình mỗi bài, tỉ lệ làm bài
+
     private int count = 5;
     @GetMapping("/")
     public StatisticDto  findAllExamsWithStats() {
@@ -84,6 +91,7 @@ public class StatisticController {
         List<String> nameExam = new ArrayList<>();
         List<Object[]> results = entityManager.createNativeQuery(
                 "SELECT id, name FROM exam"
+
         ).getResultList();
         for (Object[] result : results) {
             Long id = (Long) result[0];
@@ -133,7 +141,6 @@ public class StatisticController {
             phanPhoiDiem.add(tmp);
         }
         diemTB = diemTB / count;
-
 
 
         int numOfStudent = ((Number)entityManager.createNativeQuery("SELECT count(u.username) From user u left join user_role ur ON u.user_id = ur.user_id left join role r ON ur.role_id = r.role_id WHERE r.authority = 'USER'")

@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080")
 public class ExamController {
     private final ExamService examService;
+    
+    public ExamController(ExamService examService) {
+    	this.examService = examService;
+    }
 
     // Get exam by id
     @GetMapping("/{examId}")

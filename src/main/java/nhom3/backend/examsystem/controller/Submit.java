@@ -37,12 +37,12 @@ public class Submit {
 	private final QuestionRepository questionRepository;
 	private final AnswerSheetServices answerSheetServices;
 	private final AnswerServices answerServices;
-	
-//	public Submit(QuestionRepository questionRepository, AnswerSheetServices answerSheetServices, AnswerServices answerServices) {
-//		this.questionRepository = questionRepository;
-//		this.answerSheetServices = answerSheetServices;
-//		this.answerServices = answerServices;
-//	}
+
+	public Submit(QuestionRepository questionRepository, AnswerSheetServices answerSheetServices, AnswerServices answerServices) {
+		this.questionRepository = questionRepository;
+		this.answerSheetServices = answerSheetServices;
+		this.answerServices = answerServices;
+	}
 	@PostMapping("/submit")	
 	public ResponseEntity<Object> postAnswerSheet(@RequestBody Map<String, Object> answerSheet) {
 		try {

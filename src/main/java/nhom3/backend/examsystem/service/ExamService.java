@@ -15,8 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExamService {
     private final ExamRepository examRepository;
-    
-//    @Autowired
+
     public ExamService(ExamRepository examRepository) {
     	this.examRepository = examRepository;
     }

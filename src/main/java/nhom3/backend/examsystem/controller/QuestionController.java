@@ -17,6 +17,7 @@ public class QuestionController {
     public QuestionController(QuestionService questionService) {
     	this.questionService = questionService;
     }
+
     // Create new question
     @PostMapping("/create-question/{examId}")
     public ResponseEntity<?> createQuestion(@RequestBody Question question, @PathVariable("examId") Long examId) throws JsonProcessingException {

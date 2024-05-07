@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Setter
 @Entity
-@Table(name = "role")
+@Table(name = "Role")
 public class Role  implements GrantedAuthority {
     @Getter
     @Id
@@ -15,6 +15,7 @@ public class Role  implements GrantedAuthority {
     @Column(name="role_id")
     private Long roleId;
 
+    @Column(name="Authority")
     private String authority;
 
     public Role(){

@@ -10,22 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="answer_sheet")
+@Table(name="Answer_sheet")
 public class AnswerSheet {	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="Id")
 	private long id;
 	
-	@Column(name="user_id")
+	@Column(name="User_id")
 	private long userId;
 	
-	@Column(name="exam_id")
+	@Column(name="Exam_id")
 	private long examId;
 
 
-	@Column(name="result")
-	private int result;
+	@Column(name="Result")
+	private double result;
 	public AnswerSheet() {
 		
 	}
@@ -53,7 +53,7 @@ public class AnswerSheet {
 		this.userId = userId;
 	}
 
-	public int getResult() {
+	public double getResult() {
 		return result;
 	}
 

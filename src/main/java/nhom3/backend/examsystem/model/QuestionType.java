@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="question_type")
+@Table(name="Question_type")
 public class QuestionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "Id")
     private Long questionTypeId;
-    @Column(name = "name")
+    @Column(name = "Name")
     private String name;
 
     public long getQuestionTypeId() {

@@ -23,10 +23,14 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:8090")
 public class ExamController {
     private final ExamService examService;
+
     @Autowired
     private EntityManager entityManager;
-    @Autowired
-    private UserRepository userRepository;
+    
+    public ExamController(ExamService examService) {
+    	this.examService = examService;
+    }
+
 
     // Get exam by id
     @GetMapping("/{examId}")

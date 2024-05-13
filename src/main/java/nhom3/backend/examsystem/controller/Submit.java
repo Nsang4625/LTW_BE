@@ -1,6 +1,6 @@
 package nhom3.backend.examsystem.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import nhom3.backend.examsystem.model.Answer;
@@ -22,13 +22,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
 @RequestMapping("/submission")
+@CrossOrigin("*")
 //@RequiredArgsConstructor
 	
 public class Submit {

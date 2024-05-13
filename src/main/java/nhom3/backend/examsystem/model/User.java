@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User  implements UserDetails {
 
     @Getter
@@ -21,7 +21,8 @@ public class User  implements UserDetails {
     private Long userId;
 
     @Setter
-    @Column(unique = true)
+//    @Column(unique = true)
+    @Column(name = "Username")
     private String username;
 
     @Setter
@@ -30,9 +31,9 @@ public class User  implements UserDetails {
     @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role",
-            joinColumns = { @JoinColumn(name = "user_id")},
-            inverseJoinColumns = { @JoinColumn(name = "role_id")}
+            name = "User_role",
+            joinColumns = { @JoinColumn(name = "User_id")},
+            inverseJoinColumns = { @JoinColumn(name = "Role_id")}
     )
     private Set<Role> authorities;
 
@@ -53,6 +54,15 @@ public class User  implements UserDetails {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+    }
+
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public void setId(Long userId) {

@@ -1,5 +1,7 @@
 package nhom3.backend.examsystem.controller;
 
+import nhom3.backend.examsystem.model.User;
+import nhom3.backend.examsystem.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
@@ -22,50 +24,62 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/submission")
 @CrossOrigin("*")
 //@RequiredArgsConstructor
-	
+
 public class Submit {
 
-//	@Autowired
+	//	@Autowired
 	private final QuestionRepository questionRepository;
+	private final UserRepository userRepository;
 	private final AnswerSheetServices answerSheetServices;
-	private final AnswerServices answerServices;
 
-	public Submit(QuestionRepository questionRepository, AnswerSheetServices answerSheetServices, AnswerServices answerServices) {
+	public Submit(QuestionRepository questionRepository, AnswerSheetServices answerSheetServices,
+				  UserRepository userRepository) {
 		this.questionRepository = questionRepository;
 		this.answerSheetServices = answerSheetServices;
-		this.answerServices = answerServices;
+		this.userRepository = userRepository;
 	}
-	@PostMapping("/submit")	
+	@PostMapping("/submit")
 	public ResponseEntity<Object> postAnswerSheet(@RequestBody Map<String, Object> answerSheet) {
 		try {
-			
+
 //			System.out.printf("Exam id: %d\n", answerSheet.get("examId"));
 //			System.out.printf("User id: %d\n", answerSheet.get("userId"));
-			
+
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String userName = authentication.getName();
+
+			User user = userRepository.findByUsername(userName).get();
+			Integer userId = (Integer) user.getUserId().intValue();
+
+			System.out.printf("userId: %d", userId);
+
 			// Calculate the result
 			List<Map<String, Object>> answers = (ArrayList<Map<String, Object>>) answerSheet.get("answers");
 			Integer examId = (Integer) answerSheet.get("examId");
-			Integer userId = (Integer) answerSheet.get("userId");
-			
+
 			int result = 0;
 			for(int i = 0; i < answers.size(); ++i) {
 				Map<String, Object> answer = answers.get(i);
 				Integer questionIdInt = (Integer) answer.get("questionId");
 				Long questionId = Long.valueOf(questionIdInt.longValue());
 				String choicesJson = (String) answer.get("choices");
-	
+
 				JSONArray jsa = new JSONArray(choicesJson);
 				List<String> choices = new ArrayList<String>();
 				for(int j = 0; j < jsa.length(); ++j) {
 					choices.add(jsa.getString(j));
 				}
-				
+
 				Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 				Question question = optionalQuestion.get();
 				String p = question.getCorrectAnswer();
@@ -92,6 +106,7 @@ public class Submit {
 				result += flag;
 			}
 			answerSheet.put("result", result);
+			answerSheet.put("userId", userId);
 			ResponseEntity re = answerSheetServices.createAnswerSheet(examId, userId, result, answers);
 //			System.out.println(re.get);
 		}
@@ -99,7 +114,7 @@ public class Submit {
 			System.out.println(e);
 			return ResponseHandler.getResponse("Lỗi nộp bài", HttpStatus.BAD_REQUEST, new AnswerSheet());
 		}
-		
+
 		return ResponseHandler.getResponse("Nộp bài thành công", HttpStatus.OK, answerSheet);
 	}
 }

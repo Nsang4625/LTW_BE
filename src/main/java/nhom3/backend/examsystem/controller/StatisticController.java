@@ -28,8 +28,9 @@ public class StatisticController {
 
     private final AnswerSheetServices answerSheetServices;
     
-    public StatisticController(AnswerSheetServices answerSheetServices) {
+    public StatisticController(AnswerSheetServices answerSheetServices, ExamService examService) {
     	this.answerSheetServices = answerSheetServices;
+    	this.examService = examService;
     }
     // thống kê tất cả các bài kiểm tra, điểm trung bình mỗi bài, tỉ lệ làm bài
 

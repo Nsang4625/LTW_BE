@@ -20,6 +20,10 @@ public class DashboardController {
     @Autowired
     private EntityManager entityManager;
     private final ExamService examService;
+    
+    public DashboardController(ExamService examService) {
+    	this.examService = examService;
+    }
     // thống kê tất cả các bài kiểm tra, điểm trung bình mỗi bài, tỉ lệ làm bài
     private int count = 5;
     @GetMapping("/Exam/List")

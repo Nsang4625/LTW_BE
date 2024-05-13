@@ -55,25 +55,29 @@ public class StatisticController {
 
             Integer numOfQues = ((Number)entityManager.createNativeQuery("SELECT count(id) FROM question where exam_id = " + id)
                     .getSingleResult()).intValue();
-            Double mark = (Double.valueOf(numOfCorr) / Double.valueOf(numOfQues))*10;
-            mark = round(mark, 1);
-            if (mark == null)
+            if (numOfCorr != null && numOfQues != null)
             {
-                continue;
-            }
-            else
-            {
-                diemTB += mark;
-                count++;
-                if(!mp.containsKey(mark))
+                Double mark = (Double.valueOf(numOfCorr) / Double.valueOf(numOfQues))*10;
+                mark = round(mark, 1);
+                if (mark == null)
                 {
-                    mp.put(mark, 1);
+                    continue;
                 }
                 else
                 {
-                    mp.put(mark, mp.get(mark) + 1);
+                    diemTB += mark;
+                    count++;
+                    if(!mp.containsKey(mark))
+                    {
+                        mp.put(mark, 1);
+                    }
+                    else
+                    {
+                        mp.put(mark, mp.get(mark) + 1);
+                    }
                 }
             }
+
         }
         List <Double> sortedKeys = new ArrayList(mp.keySet());
         Collections.sort(sortedKeys);
@@ -130,23 +134,20 @@ public class StatisticController {
 
             Integer numOfQues = ((Number)entityManager.createNativeQuery("SELECT count(id) FROM question where exam_id = " + id)
                     .getSingleResult()).intValue();
-            Double mark = (Double.valueOf(numOfCorr) / Double.valueOf(numOfQues))*10;
-            mark = round(mark, 1);
-            if (mark == null)
+            if (numOfCorr != null && numOfQues != null)
             {
-                continue;
-            }
-            else
-            {
-                diemTB += mark;
-                count++;
-                if(!mp.containsKey(mark))
-                {
-                    mp.put(mark, 1);
-                }
-                else
-                {
-                    mp.put(mark, mp.get(mark) + 1);
+                Double mark = (Double.valueOf(numOfCorr) / Double.valueOf(numOfQues)) * 10;
+                mark = round(mark, 1);
+                if (mark == null) {
+                    continue;
+                } else {
+                    diemTB += mark;
+                    count++;
+                    if (!mp.containsKey(mark)) {
+                        mp.put(mark, 1);
+                    } else {
+                        mp.put(mark, mp.get(mark) + 1);
+                    }
                 }
             }
         }

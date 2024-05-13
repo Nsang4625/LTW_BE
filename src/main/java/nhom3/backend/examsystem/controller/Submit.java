@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/submission")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 	
 public class Submit {
 

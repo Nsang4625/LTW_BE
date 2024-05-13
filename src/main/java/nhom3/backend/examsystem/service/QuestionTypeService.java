@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class QuestionTypeService {
     private final QuestionRepository questionRepository;
 

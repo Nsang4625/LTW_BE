@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/exam")
-@CrossOrigin(origins = "http://localhost:8090")
+@CrossOrigin(origins = "*")
 public class ExamController {
     private final ExamService examService;
 

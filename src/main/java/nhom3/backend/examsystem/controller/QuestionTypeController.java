@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/questionType")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:8090")
 public class QuestionTypeController {
     private final QuestionTypeService questionTypeService;

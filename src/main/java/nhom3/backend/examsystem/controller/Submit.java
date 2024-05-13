@@ -6,10 +6,13 @@ import lombok.RequiredArgsConstructor;
 import nhom3.backend.examsystem.model.Answer;
 import nhom3.backend.examsystem.model.AnswerSheet;
 import nhom3.backend.examsystem.model.Question;
+import nhom3.backend.examsystem.model.User;
 import nhom3.backend.examsystem.repository.QuestionRepository;
+import nhom3.backend.examsystem.repository.UserRepository;
 import nhom3.backend.examsystem.response.ResponseHandler;
 import nhom3.backend.examsystem.service.AnswerServices;
 import nhom3.backend.examsystem.service.AnswerSheetServices;
+import nhom3.backend.examsystem.service.UserService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +22,10 @@ import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +39,14 @@ public class Submit {
 
 //	@Autowired
 	private final QuestionRepository questionRepository;
+	private final UserRepository userRepository;
 	private final AnswerSheetServices answerSheetServices;
-	private final AnswerServices answerServices;
 
-	public Submit(QuestionRepository questionRepository, AnswerSheetServices answerSheetServices, AnswerServices answerServices) {
+	public Submit(QuestionRepository questionRepository, AnswerSheetServices answerSheetServices,
+			 UserRepository userRepository) {
 		this.questionRepository = questionRepository;
 		this.answerSheetServices = answerSheetServices;
-		this.answerServices = answerServices;
+		this.userRepository = userRepository;
 	}
 	@PostMapping("/submit")	
 	public ResponseEntity<Object> postAnswerSheet(@RequestBody Map<String, Object> answerSheet) {
@@ -50,10 +55,17 @@ public class Submit {
 //			System.out.printf("Exam id: %d\n", answerSheet.get("examId"));
 //			System.out.printf("User id: %d\n", answerSheet.get("userId"));
 			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String userName = authentication.getName();
+					
+			User user = userRepository.findByUsername(userName).get();
+			Integer userId = (Integer) user.getUserId().intValue();
+			
+			System.out.printf("userId: %d", userId);
+			
 			// Calculate the result
 			List<Map<String, Object>> answers = (ArrayList<Map<String, Object>>) answerSheet.get("answers");
 			Integer examId = (Integer) answerSheet.get("examId");
-			Integer userId = (Integer) answerSheet.get("userId");
 			
 			int result = 0;
 			for(int i = 0; i < answers.size(); ++i) {
@@ -94,6 +106,7 @@ public class Submit {
 				result += flag;
 			}
 			answerSheet.put("result", result);
+			answerSheet.put("userId", userId);
 			ResponseEntity re = answerSheetServices.createAnswerSheet(examId, userId, result, answers);
 //			System.out.println(re.get);
 		}

@@ -56,7 +56,16 @@ public class User  implements UserDetails {
         this.authorities = authorities;
     }
 
-    public void setId(Long userId) {
+    
+    public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setId(Long userId) {
         this.userId = userId;
     }
 

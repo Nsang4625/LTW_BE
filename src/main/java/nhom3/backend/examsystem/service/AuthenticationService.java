@@ -3,6 +3,7 @@ package nhom3.backend.examsystem.service;
 
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import nhom3.backend.examsystem.dto.LoginResponseDto;
@@ -49,6 +50,29 @@ public class AuthenticationService {
         authorities.add(userRole);
 
         return userRepository.save(new User( username, encodedPassword, authorities));
+    }
+
+    public User addAdmin(String username, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        Role adminRole = roleRepository.findByAuthority("ADMIN").get();
+
+        Set<Role> authorities = new HashSet<>();
+        authorities.add(adminRole);
+
+        return userRepository.save(new User(username, encodedPassword, authorities));
+    }
+
+    public Optional<User> updatePassword(String username, String password){
+        String encodedPassword = passwordEncoder.encode(password);
+        return  userRepository.findByUsername(username).map(user -> {
+            user.setPassword(encodedPassword);
+            return userRepository.save(user);
+        });
+    }
+    public void deleteUser(Long id){
+
+        userRepository.deleteById(id);
+        return;
     }
 
     public LoginResponseDto loginUser(String username, String password){

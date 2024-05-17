@@ -124,61 +124,70 @@ public class StatisticController {
         Double diemTB = 0.0;
         int count = 0;
         Map<Double, Integer> mp = new HashMap<>();
-        List<Object[]> results = entityManager.createNativeQuery(
-                "SELECT e.id, e.name, a.result FROM exam e LEFT JOIN answer_sheet a ON e.id = a.exam_id where e.id = " + examId
-        ).getResultList();
-        for (Object[] result : results) {
-            Long id = (Long) result[0];
-            String name = (String) result[1];
-            Integer numOfCorr = (Integer) result[2];
+        try {
+            List<Object[]> results = entityManager.createNativeQuery(
+                    "SELECT e.id, e.name, a.result FROM exam e LEFT JOIN answer_sheet a ON e.id = a.exam_id where e.id = " + examId
+            ).getResultList();
+            for (Object[] result : results) {
+                Long id = (Long) result[0];
+                String name = (String) result[1];
+                Integer numOfCorr = (Integer) result[2];
 
-            Integer numOfQues = ((Number)entityManager.createNativeQuery("SELECT count(id) FROM question where exam_id = " + id)
-                    .getSingleResult()).intValue();
-            if (numOfCorr != null && numOfQues != null)
-            {
-                Double mark = (Double.valueOf(numOfCorr) / Double.valueOf(numOfQues)) * 10;
-                mark = round(mark, 1);
-                if (mark == null) {
-                    continue;
-                } else {
-                    diemTB += mark;
-                    count++;
-                    if (!mp.containsKey(mark)) {
-                        mp.put(mark, 1);
+                Integer numOfQues = ((Number)entityManager.createNativeQuery("SELECT count(id) FROM question where exam_id = " + id)
+                        .getSingleResult()).intValue();
+                if (numOfCorr != null && numOfQues != null)
+                {
+                    Double mark = (Double.valueOf(numOfCorr) / Double.valueOf(numOfQues)) * 10;
+                    mark = round(mark, 1);
+                    if (mark == null) {
+                        continue;
                     } else {
-                        mp.put(mark, mp.get(mark) + 1);
+                        diemTB += mark;
+                        count++;
+                        if (!mp.containsKey(mark)) {
+                            mp.put(mark, 1);
+                        } else {
+                            mp.put(mark, mp.get(mark) + 1);
+                        }
                     }
                 }
             }
+            List <Double> sortedKeys = new ArrayList(mp.keySet());
+            Collections.sort(sortedKeys);
+            List<String> phanPhoiDiem = new ArrayList<>();
+            for (Double key : sortedKeys)
+            {
+                String tmp = String.valueOf(key) + ":" + String.valueOf(mp.get(key));
+                phanPhoiDiem.add(tmp);
+            }
+            diemTB = diemTB / count;
+            diemTB = round(diemTB, 1);
+
+
+            int numOfStudent = ((Number)entityManager.createNativeQuery("SELECT count(u.username) From user u left join user_role ur ON u.user_id = ur.user_id left join role r ON ur.role_id = r.role_id WHERE r.authority = 'USER'")
+                    .getSingleResult()).intValue();
+            Integer numOfExamDone =  count;
+            Double tiLeHoanThanh = numOfExamDone*1.0/numOfStudent;
+            tiLeHoanThanh = round(tiLeHoanThanh, 1);
+            tiLeHoanThanh = tiLeHoanThanh*100;
+
+            Integer tongSolanThamGia = count;
+            StatisticDto st = new StatisticDto(tongSolanThamGia, tiLeHoanThanh, diemTB, phanPhoiDiem);
+            return st;
         }
-        List <Double> sortedKeys = new ArrayList(mp.keySet());
-        Collections.sort(sortedKeys);
-        List<String> phanPhoiDiem = new ArrayList<>();
-        for (Double key : sortedKeys)
-        {
-            String tmp = String.valueOf(key) + ":" + String.valueOf(mp.get(key));
-            phanPhoiDiem.add(tmp);
+        catch (Exception e) {
+            List<String> phanPhoiDiem = new ArrayList<>();
+            StatisticDto st = new StatisticDto(0, 0.0, diemTB, phanPhoiDiem);
+            return st;
         }
-        diemTB = diemTB / count;
-        diemTB = round(diemTB, 1);
 
-
-        int numOfStudent = ((Number)entityManager.createNativeQuery("SELECT count(u.username) From user u left join user_role ur ON u.user_id = ur.user_id left join role r ON ur.role_id = r.role_id WHERE r.authority = 'USER'")
-                .getSingleResult()).intValue();
-        Integer numOfExamDone =  count;
-        Double tiLeHoanThanh = numOfExamDone*1.0/numOfStudent;
-        tiLeHoanThanh = round(tiLeHoanThanh, 1);
-        tiLeHoanThanh = tiLeHoanThanh*100;
-
-        Integer tongSolanThamGia = count;
-        StatisticDto st = new StatisticDto(tongSolanThamGia, tiLeHoanThanh, diemTB, phanPhoiDiem);
-        return st;
     }
 
     // xem danh sách kết quả tất cả bài thi của 1 sinh viên tìm bằng mã sinh viên
     @GetMapping("/student/{userId}")
     public List<Object> findAllAnswerSheetsByUserId(@PathVariable("userId") long userId) {
         List<Object> ls = new ArrayList<>();
+        try {
         String name = this.entityManager.createNativeQuery("SELECT u.username From user u WHERE u.user_id = "+ String.valueOf(userId)).getSingleResult().toString();
         ls.add(name);
         String query = "SELECT a.exam_id, e.name, a.result FROM Answer_Sheet a left join exam e ON a.exam_id = e.id WHERE a.user_id =" + String.valueOf(userId);
@@ -196,6 +205,11 @@ public class StatisticController {
             StatisticStudentDto ssd = new StatisticStudentDto(examId, examName, mark);
             ls.add(ssd);
         }
+        }
+        catch (Exception e) {
+            ls.add(e);
+        }
+
         return ls;
     }
 

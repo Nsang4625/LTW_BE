@@ -61,11 +61,13 @@ public class Submit {
 			User user = userRepository.findByUsername(userName).get();
 			Integer userId = (Integer) user.getUserId().intValue();
 
-			System.out.printf("userId: %d", userId);
+			System.out.printf("userId: %d\n", userId);
 
 			// Calculate the result
 			List<Map<String, Object>> answers = (ArrayList<Map<String, Object>>) answerSheet.get("answers");
 			Integer examId = (Integer) answerSheet.get("examId");
+
+			System.out.println(answers.size());
 
 			int result = 0;
 			for(int i = 0; i < answers.size(); ++i) {
@@ -76,9 +78,6 @@ public class Submit {
 
 				JSONArray jsa = new JSONArray(choicesJson);
 				List<String> choices = new ArrayList<String>();
-				for(int j = 0; j < jsa.length(); ++j) {
-					choices.add(jsa.getString(j));
-				}
 
 				Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 				Question question = optionalQuestion.get();
@@ -86,12 +85,28 @@ public class Submit {
 
 				List<String> correctAnswers = new ArrayList<String>();
 				jsa = new JSONArray(p);
+
+
+				for(int j = 0; j < jsa.length(); ++j) {
+					choices.add(jsa.getString(j));
+				}
+
 				for(int j = 0; j < jsa.length(); ++j) {
 					correctAnswers.add(jsa.getString(j));
 				}
 
 				Collections.sort(choices);
 				Collections.sort(correctAnswers);
+
+				System.out.println("Correct answers:");
+				for(int j = 0; j < correctAnswers.size(); ++j){
+					System.out.println(correctAnswers.get(j));
+				}
+
+				System.out.println("Choices:");
+				for(int j = 0; j < choices.size(); ++j) {
+					System.out.println(choices.get(j));
+				}
 				int flag = 1;
 				if(choices.size() != correctAnswers.size()) {
 					flag = 0;
